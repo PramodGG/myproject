@@ -30,13 +30,13 @@ if matches:
         if range_match:
             lower_bound, upper_bound = range_match.groups()
             # Increment the upper bound version number
-            incremented_upper_bound = re.sub(r'\d+', lambda x: str(int(x.group()) + 1), upper_bound)
+            incremented_upper_bound = ".".join([str(int(x) + 1) for x in upper_bound.split(".")])
             # Replace the old version range with the incremented one
             new_version = f"<version>[{lower_bound},{incremented_upper_bound})</version>"
             pom_content = pom_content.replace(f"<version>{old_version}</version>", new_version)
         else:
             # Increment a single version number
-            incremented_version = re.sub(r'\d+', lambda x: str(int(x.group()) + 1), old_version)
+            incremented_version = ".".join([str(int(x) + 1) for x in old_version.split(".")])
             # Replace the old version with the incremented one
             new_version = f"<version>{incremented_version}</version>"
             pom_content = pom_content.replace(f"<version>{old_version}</version>", new_version)
