@@ -1,0 +1,56 @@
+import git
+import os
+import re
+
+# Clone the remote repository
+repo_url = "https://github.com/PramodGG/myproject.git"
+repo_dir = "new_repo"
+repo = git.Repo.clone_from(repo_url, repo_dir)
+
+# Create a new branch
+new_branch_name = "abc"
+new_branch = repo.create_head(new_branch_name)
+
+# Checkout to the new branch
+new_branch.checkout()
+
+# Switch to the .pom file
+pom_file_path = os.path.join(repo_dir, "pom.xml")
+with open(pom_file_path, "r") as file:
+    pom_content = file.read()
+
+# Change the version in the .pom file using regular expressions
+old_version_pattern = r"<version>([^<]+)</version>"
+matches = re.findall(old_version_pattern, pom_content)
+
+if matches:
+    for old_version in matches:
+        # Extract the version range within the brackets
+        range_match = re.match(r"\[([\d.]+),([\d.]+)\)", old_version)
+        if range_match:
+            lower_bound, upper_bound = range_match.groups()
+            # Increment the upper bound version number
+            incremented_upper_bound = re.sub(r'\d+', lambda x: str(int(x.group()) + 1), upper_bound)
+            # Replace the old version range with the incremented one
+            new_version = f"<version>[{lower_bound},{incremented_upper_bound})</version>"
+            pom_content = pom_content.replace(f"<version>{old_version}</version>", new_version)
+        else:
+            # Increment a single version number
+            incremented_version = re.sub(r'\d+', lambda x: str(int(x.group()) + 1), old_version)
+            # Replace the old version with the incremented one
+            new_version = f"<version>{incremented_version}</version>"
+            pom_content = pom_content.replace(f"<version>{old_version}</version>", new_version)
+
+    # Write the modified .pom file
+    with open(pom_file_path, "w") as file:
+        file.write(pom_content)
+
+    # Stage and commit the changes
+    repo.index.add([pom_file_path])
+    repo.index.commit("Update version in .pom file")
+
+    # Push the new branch to the remote repository
+    origin = repo.remote("origin")
+    origin.push(new_branch_name)
+else:
+    print("Version not found in the .pom file.")
