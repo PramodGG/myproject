@@ -1,0 +1,7 @@
+abwow.release.number: ${ABWOW_RELEASE_NUMBER:20}
+
+dva:
+  abwow:
+    edge: https://idev-r20.ab
+
+templateVersion:20
