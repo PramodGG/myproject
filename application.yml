@@ -1,4 +1,4 @@
-abwow.release.number: ${ABWOW_RELEASE_NUMBER:20}
+abwow.release.number:${ABWOW_RELEASE_NUMBER:20}
 
 dva:
   abwow:
