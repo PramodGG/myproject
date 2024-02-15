@@ -1,0 +1,14 @@
+import subprocess
+
+# Step 1: Define paths and filenames
+analysis_exe_path = "path_to_LoadRunner_Analysis_executable/AnalysisUI.exe"
+result_file_path = "path_to_result_file.lrr"
+output_summary_report_path = "output_summary_report.txt"
+output_excel_path = "output_excel_file.xlsx"
+
+# Step 2: Generate the summary report using LoadRunner Analysis CLI
+subprocess.run([analysis_exe_path, "-Run", "AnalysisCmd", "-ResultPath", result_file_path, "-Output", output_summary_report_path])
+
+# Step 3: Parse the generated summary report data (not shown here)
+
+# Step 4: Write the parsed data to Excel (not shown here)
