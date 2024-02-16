@@ -37,3 +37,60 @@ df = pd.DataFrame(summary_report_data.items(), columns=['Key', 'Value'])
 df.to_excel(output_excel_path, index=False)
 
 print("Parsed data written to Excel successfully.")
+
+
+___________
+import pyautogui
+import time
+
+# Function to automate the process of opening LoadRunner Analysis and copying summary report to Excel
+def automate_loadrunner_analysis(file_name, excel_file):
+    # Open LoadRunner Analysis
+    pyautogui.press('win')
+    pyautogui.write('LoadRunner Analysis')
+    pyautogui.press('enter')
+    time.sleep(10)  # Adjust this time according to your system's speed
+
+    # Assuming the file menu is at the top-left corner
+    pyautogui.click(x=100, y=100)
+    time.sleep(2)
+
+    # Open the result file
+    pyautogui.moveTo(x=200, y=200)  # Adjust coordinates if needed
+    pyautogui.click()
+
+    # Enter the file name and press enter (assuming the dialog is already open)
+    pyautogui.write(file_name)
+    pyautogui.press('enter')
+    time.sleep(10)  # Adjust this time according to your system's speed
+
+    # Select the summary report tab (assuming it's always at a specific location)
+    pyautogui.moveTo(x=500, y=300)  # Adjust coordinates if needed
+    pyautogui.click()
+
+    # Select all (Ctrl + A) and copy (Ctrl + C) the summary report content
+    pyautogui.hotkey('ctrl', 'a')  # Select all
+    pyautogui.hotkey('ctrl', 'c')  # Copy
+
+    # Switch to Excel (assuming it's already open)
+    pyautogui.press('win')
+    pyautogui.write('Excel')
+    pyautogui.press('enter')
+    time.sleep(5)  # Adjust this time according to your system's speed
+
+    # Paste (Ctrl + V) the copied content into Excel
+    pyautogui.hotkey('ctrl', 'v')  # Paste
+
+    # Save Excel file
+    pyautogui.hotkey('ctrl', 's')  # Save
+    pyautogui.write(excel_file)
+    pyautogui.press('enter')
+    time.sleep(5)  # Adjust this time according to your system's speed
+
+# Main script
+if __name__ == "__main__":
+    result_file_name = "res20548"  # Adjust the file name as needed
+    excel_file_name = "summary_report.xlsx"  # Adjust the Excel file name as needed
+
+    automate_loadrunner_analysis(result_file_name, excel_file_name)
+
