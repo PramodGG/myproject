@@ -1,0 +1,26 @@
+from bs4 import BeautifulSoup
+import pandas as pd
+
+# Read the HTML file
+with open("your_html_file.html", "r") as f:
+    html_content = f.read()
+
+# Parse HTML
+soup = BeautifulSoup(html_content, "html.parser")
+
+# Find the transactions table
+transactions_table = soup.find("table", {"id": "transactions"})
+
+# Extract data from the table
+data = []
+for row in transactions_table.find_all("tr"):
+    row_data = []
+    for cell in row.find_all(["th", "td"]):
+        row_data.append(cell.get_text().strip())
+    data.append(row_data)
+
+# Convert data to pandas DataFrame
+df = pd.DataFrame(data[1:], columns=data[0])
+
+# Write DataFrame to Excel file
+df.to_excel("transactions.xlsx", index=False)
