@@ -94,3 +94,34 @@ if __name__ == "__main__":
 
     automate_loadrunner_analysis(result_file_name, excel_file_name)
 
+_______%____________
+import subprocess
+
+# Step 1: Define paths and filenames
+analysis_exe_path = "path_to_LoadRunner_Analysis_executable/AnalysisUI.exe"
+result_file_path = "path_to_result_file.lrr"
+output_summary_report_path = "output_summary_report.txt"
+
+# Step 2: Generate the summary report using LoadRunner Analysis CLI
+subprocess.run([analysis_exe_path, "-Run", "AnalysisCmd", "-ResultPath", result_file_path, "-Output", output_summary_report_path])
+
+# Step 3: Parse the generated summary report data and write it to a text file
+def extract_summary_report_data(file_path):
+    summary_report_data = []
+    with open(file_path, "r") as file:
+        lines = file.readlines()
+        for line in lines:
+            # Assuming summary report data starts with 'T' and ends with a numeric value
+            if line.strip().startswith('T') and line.strip()[-1].isdigit():
+                summary_report_data.append(line.strip())
+    return summary_report_data
+
+# Extract summary report data
+summary_report_data = extract_summary_report_data(output_summary_report_path)
+
+# Write summary report data to text file
+with open("summary_report_data.txt", "w") as output_file:
+    output_file.write("\n".join(summary_report_data))
+
+print("Summary report data copied to text file successfully.")
+
