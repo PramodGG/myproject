@@ -1,0 +1,47 @@
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+# Define your login credentials
+username = "your_username"
+password = "your_password"
+
+# Create a new instance of the Chrome driver
+driver = webdriver.Chrome()
+
+# Replace 'your_login_page_url' with the actual URL of your login page
+driver.get("your_login_page_url")
+
+try:
+    # Wait for the username field to be present
+    username_field = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, '//*[@id="login-controls"]/div[1]'))
+    )
+    # Enter username
+    username_field.send_keys(username)
+
+    # Locate the password field
+    password_field = driver.find_element_by_xpath('//*[@id="login-controls"]/div[2]')
+    # Enter password
+    password_field.send_keys(password)
+
+    # Locate the authenticate button and click on it
+    authenticate_button = driver.find_element_by_xpath('//*[@id="login-controls"]/dx-button/div')
+    authenticate_button.click()
+
+    # Wait for the login button to be present after authentication
+    login_button = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, '//*[@id="login-controls"]/div[6]/dx-button/div'))
+    )
+    
+    # Click on the login button
+    login_button.click()
+
+except Exception as e:
+    print("An error occurred:", e)
+
+finally:
+    # Close the browser window
+    driver.quit()
