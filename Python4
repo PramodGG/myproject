@@ -1,0 +1,28 @@
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+# Replace 'path_to_chrome_driver' with the path to your Chrome webdriver executable
+driver = webdriver.Chrome('path_to_chrome_driver')
+
+# Replace 'url_of_login_page' with the URL of your login page
+driver.get('url_of_login_page')
+
+# Find username and password elements and input your credentials
+username = driver.find_element_by_name('username')
+username.send_keys('your_username')
+
+password = driver.find_element_by_name('password')
+password.send_keys('your_password')
+
+# Click the authenticate button
+authenticate_button = driver.find_element_by_class_name('dx-button-text')
+authenticate_button.click()
+
+# Wait for the login button to appear and then click it
+login_button = WebDriverWait(driver, 10).until(
+    EC.presence_of_element_located((By.CLASS_NAME, 'de-button-text'))
+)
+login_button.click()
