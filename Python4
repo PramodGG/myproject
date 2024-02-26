@@ -4,8 +4,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-# Replace 'path_to_chrome_driver' with the path to your Chrome webdriver executable
-driver = webdriver.Chrome('path_to_chrome_driver')
+# Use webdriver.Chrome() with executable_path parameter
+driver = webdriver.Chrome(executable_path=r'C:\workspace\LoadRunnerIdea\UIside\chromedriver-win64\chromedriver.exe')
 
 # Replace 'url_of_login_page' with the URL of your login page
 driver.get('url_of_login_page')
